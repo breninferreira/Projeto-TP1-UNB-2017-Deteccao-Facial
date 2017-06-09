@@ -59,14 +59,16 @@ void detectAndDisplay( Mat frame, int* num )
         Mat faceROI = frame_gray( faces[i] );
         std::vector<Rect> eyes;
 
-        Mat face_i = frame(faces[i]);
+        Mat face_i = frame_gray(faces[i]);
 
         vector<int> compression_params;
         compression_params.push_back(100);
 
-        char d = (char)waitKey(0.2);
+        char d = (char)waitKey(2);
         if(d == 32){
-          imwrite(format("Pablo%d.jpeg", *num), face_i, compression_params);
+          // fprintf(stdout, "num == %d\n", *num);
+
+          imwrite(format("Pablo%d.jpg", *num), face_i, compression_params);
           *num = *num + 1;
          }
 

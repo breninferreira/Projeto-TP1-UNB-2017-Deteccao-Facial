@@ -32,8 +32,8 @@ using namespace cv;
 using namespace cv::face;
 using namespace std;
 
-void detectAndDisplay( Mat frame );
-static void read_csv(const string& filename, vector<Mat>& images, vector<int>& labels, char separator = ';');
+void detectAndDisplay( Mat frame, FaceRecognizer *model );
+static void read_csv(vector<Mat>& images, vector<int>& labels);
 
 String face_cascade_name = "lbpcascade_frontalface.xml";
 String eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
@@ -63,9 +63,9 @@ int main(void) {
     vector<int> labels;
     // Read in the data (fails if no valid input filename is given, but you'll get an error message):
     try {
-        read_csv(fn_csv, images, labels);
+        read_csv(images, labels);
     } catch (cv::Exception& e) {
-        cerr << "Error opening file \"" << fn_csv << "\". Reason: " << e.msg << endl;
+        cerr << "Error opening file CSV Reason: " << e.msg << endl;
         // nothing more we can do
         exit(1);
     }
@@ -78,7 +78,13 @@ int main(void) {
 
     // Create a FaceRecognizer and train it on the given images:
     Ptr<FaceRecognizer> model = createLBPHFaceRecognizer();
+    if(images.size() <= 1) {
+        string error_message = "This demo needs at least 2 images to work. Please add more images to your data set!";
+        CV_Error(CV_StsError, error_message);
+    }
     model->train(images, labels);
+
+
     // That's it for learning the Face Recognition model. You now
     // need to create the classifier for the task of Face Detection.
     // We are going to use the haar cascade you have specified in the
@@ -101,14 +107,14 @@ int main(void) {
             break;
         }
         //-- 3. Apply the classifier to the frame
-        detectAndDisplay( frame );
+        detectAndDisplay( frame , model );
         char c = (char)waitKey(10);
         if( c == 27 ) { break; } // escape
     }
     return 0;
 }
 
-void detectAndDisplay( Mat frame )
+void detectAndDisplay( Mat frame , FaceRecognizer* model)
 {
     std::vector<Rect> faces;
     Mat frame_gray;
@@ -122,25 +128,36 @@ void detectAndDisplay( Mat frame )
 
     for ( size_t i = 0; i < faces.size(); i++ )
     {
-      Mat face_i = faces[i];
-      int prediction = model->predict(face_i);
-      string box_text = format("Prediction = %d", prediction);
+      Rect face_i_rec = faces[i];
+      Mat face_i = frame_gray(face_i_rec);
+//PREDICTION
+        int prediction = -1;
+        double confidence = 0.0;
+        model->predict(face_i, prediction, confidence);
+
+
+      string box_text = format("Prediction = %d    confidence %.2f", prediction,confidence);
 
         Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
-        //ellipse( frame, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
-        rectangle(frame, faces[i], CV_RGB(0, 255,0), 1);
+        if(confidence < 80){
+          ellipse( frame, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, CV_RGB( 255, 0, 0 ), 4, 8, 0 );
+        }
+        else{
+          ellipse( frame, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, CV_RGB(0,255,0), 4, 8, 0 );
+        }
+        //rectangle(frame, faces[i], CV_RGB(0, 255,0), 1);
         Mat faceROI = frame_gray( faces[i] );
         std::vector<Rect> eyes;
         //-- In each face, detect eyes
-        eyes_cascade.detectMultiScale( faceROI, eyes, 1.1, 2, 0 |CASCADE_SCALE_IMAGE, Size(30, 30) );
-        for ( size_t j = 0; j < eyes.size(); j++ )
-        {
-            Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, faces[i].y + eyes[j].y + eyes[j].height/2 );
-            int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
-            circle( frame, eye_center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
-        }
-        int pos_x = std::max(face_i.tl().x - 10, 0);
-        int pos_y = std::max(face_i.tl().y - 10, 0);
+        // eyes_cascade.detectMultiScale( faceROI, eyes, 1.1, 2, 0 |CASCADE_SCALE_IMAGE, Size(30, 30) );
+        // for ( size_t j = 0; j < eyes.size(); j++ )
+        // {
+        //     Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, faces[i].y + eyes[j].y + eyes[j].height/2 );
+        //     int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
+        //     circle( frame, eye_center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
+        // }
+        int pos_x = std::max(face_i_rec.tl().x - 10, 0);
+        int pos_y = std::max(face_i_rec.tl().y - 10, 0);
         // And now put it into the image:
         putText(frame, box_text, Point(pos_x, pos_y), FONT_HERSHEY_PLAIN, 1.0, CV_RGB(0,255,0), 2.0);
     }
@@ -148,8 +165,10 @@ void detectAndDisplay( Mat frame )
     imshow( window_name, frame );
 }
 
-static void read_csv(const string& filename, vector<Mat>& images, vector<int>& labels, char separator = ';') {
-    std::ifstream file(filename.c_str(), ifstream::in);
+static void read_csv(vector<Mat>& images, vector<int>& labels) {
+    char separator = ';';
+
+    std::ifstream file("/home/pablomuro/Projeto-TP1-UNB-2017-Deteccao-Facial/pablo.csv", ifstream::in);
     if (!file) {
         string error_message = "No valid input file was given, please check the given filename.";
         CV_Error(CV_StsBadArg, error_message);

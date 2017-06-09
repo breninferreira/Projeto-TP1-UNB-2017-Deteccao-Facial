@@ -1,0 +1,3 @@
+https://github.com/brunojus/bash-opencv/blob/master/opencv.sh
+
+https://sites.google.com/a/computacao.ufcg.edu.br/lvc/aprendizado/opencv
