@@ -16,7 +16,7 @@ Simular um sistema para ser utilizado no Laboratório de Informática (LINF) da 
 ## Índice
    
    [Requisitos](###2requisitos)<br />
-   [MySQL](https://github.com/pablomuro/Projeto-TP1-UNB-2017-Deteccao-Facial/edit/master/README.md#MySQL)
+   [MySQL](#MySQL)
 
 
 <br />
