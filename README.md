@@ -7,8 +7,8 @@
    * 1 [Objetivo](#1-objetivo)<br />
    <t>1.1 [Descrição](#descrição)<br />
    * 2 [Requisitos](#2-requisitos)<br />
-   <t>2.1 [Utilizado](#2.1-utilizado)<br /> 
-   <t>2.2 [Instalações](#2.2-instalações)<br /> 
+   <t>2.1 [Utilizado](#utilizado)<br /> 
+   <t>2.2 [Instalações](#instalações)<br /> 
     
 ### 1 Objetivo 
  <p>
@@ -40,15 +40,15 @@ Simular um sistema para ser utilizado no Laboratório de Informática (LINF) da 
  * Qt Creator
  * MySQL
 
- ### 2.2 Instalações 
+ #### 2.2 Instalações 
 
- #### Compilador g++ 
+ ##### Compilador g++ 
 
 ```
 $ sudo apt-get install g++
 ```
 
-#### Sublime Text 
+##### Sublime Text 
 
 ```
 $ sudo add-apt-repository ppa:webupd8team/sublime-text-3
@@ -56,12 +56,12 @@ $ sudo apt-get update
 $ sudo apt-get install sublime-text-installer
 ```
 
-#### GitHub 
+##### GitHub 
 
 ```
 $ sudo apt-get install git
 ```
-#### OpenCV 
+##### OpenCV 
 <p>
 Crie um arquivo chamado install_opencv.sh. Você pode utilizar qualquer editor para isso;<br />
 Copie o seguinte trecho para dentro do arquivo e salve. Lembre-se de salvar com extensão .sh:
@@ -117,7 +117,7 @@ $ ./install_opencv.sh
 
 [Passo-a-passo](https://wiki.qt.io/Install_Qt_5_on_Ubuntu)
 
-## MySQL
+#### MySQL
 
 ```
 $ sudo apt-get intall mysql-server mysql-client
