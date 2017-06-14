@@ -2,6 +2,14 @@
 
 ## Trabalho 2 de Técnicas de programação 
 
+
+## Índice
+   * 1 [Objetivo](#1-objetivo)<br />
+   <t>1.1 [Descrição](#descrição)<br />
+   * 2 [Requisitos](#2-requisitos)<br />
+   <t>2.1 [Utilizado](#2.1-utilizado)<br /> 
+   <t>2.2 [Instalações](#2.2-instalações)<br /> 
+    
 ### 1 Objetivo 
  <p>
  Aprender e trabalhar com a linguagem C++, implementando e aplicando conceitos ensinados em sala, incluindo detecção facial, banco de dados e manipulação do GitHub.
@@ -12,11 +20,6 @@
 <p>
 Simular um sistema para ser utilizado no Laboratório de Informática (LINF) da Universidade de Brasília que faz o controle de acesso, modelando por cadastramento, tipo de usuário, detecção facial e reservas.
 </p><br />
-
-## Índice
-   
-   [Requisitos](#2-requisitos)<br />
-   [MySQL](#mysql)
 
 ### 2 Requisitos 
 
@@ -37,7 +40,7 @@ Simular um sistema para ser utilizado no Laboratório de Informática (LINF) da 
  * Qt Creator
  * MySQL
 
- ### 2.3 Instalações 
+ ### 2.2 Instalações 
 
  #### Compilador g++ 
 
