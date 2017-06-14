@@ -18,8 +18,6 @@ Simular um sistema para ser utilizado no Laboratório de Informática (LINF) da 
    [Requisitos](#2-requisitos)<br />
    [MySQL](#mysql)
 
-
-<br />
 ### 2 Requisitos 
 
  * Compilador g++
