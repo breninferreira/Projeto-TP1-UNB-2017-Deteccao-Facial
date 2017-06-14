@@ -15,8 +15,8 @@ Simular um sistema para ser utilizado no Laboratório de Informática (LINF) da 
 
 ## Índice
    
-   [Requisitos](###2requisitos)<br />
-   [MySQL](##MySQL)
+   [Requisitos](#2-requisitos)<br />
+   [MySQL](#mysql)
 
 
 <br />
